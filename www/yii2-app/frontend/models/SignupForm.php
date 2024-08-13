@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\domain\dictionary\UserType;
 use Yii;
 use yii\base\Model;
 use common\models\User;
@@ -13,7 +14,9 @@ class SignupForm extends Model
 {
     public $username;
     public $email;
+    public $phone;
     public $password;
+    public $type;
 
 
     /**
@@ -32,6 +35,13 @@ class SignupForm extends Model
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+
+            ['phone', 'trim'],
+            ['phone', 'required'],
+            ['phone', 'string', 'max' => 30],
+            ['phone', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This phone address has already been taken.'],
+
+            ['type', 'in', 'range' => UserType::all()],
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
@@ -52,6 +62,8 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->phone = $this->phone;
+        $user->type = $this->type;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();

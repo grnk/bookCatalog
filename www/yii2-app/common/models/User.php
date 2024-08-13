@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\domain\dictionary\UserType;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -17,6 +18,8 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $verification_token
  * @property string $email
+ * @property string $phone
+ * @property string $type
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -56,6 +59,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            ['type' , 'in', 'range' => UserType::all()],
         ];
     }
 
