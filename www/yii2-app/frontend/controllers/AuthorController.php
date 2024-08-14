@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use common\models\Author;
 use frontend\search\author\Search;
 use frontend\search\author\Validate;
-use frontend\search\AuthorSearch;
 use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

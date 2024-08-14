@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use common\models\Book;
 use frontend\search\book\Search;
 use frontend\search\book\Validate;
-use frontend\search\BookSearch;
 use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
