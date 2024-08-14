@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\domain\access\UserRole;
 use common\models\Author;
 use frontend\search\author\Search;
 use frontend\search\author\Validate;
@@ -16,6 +17,18 @@ use yii\web\Response;
  */
 class AuthorController extends Controller
 {
+    public function beforeAction($action): bool
+    {
+        if(
+            !(new UserRole())->isUser()
+            && in_array($action->id, ['create', 'update', 'delete'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @inheritDoc
      */

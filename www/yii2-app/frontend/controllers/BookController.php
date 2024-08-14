@@ -2,9 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\domain\access\UserRole;
+use common\domain\dictionary\UserType;
 use common\models\Book;
 use frontend\search\book\Search;
 use frontend\search\book\Validate;
+use Yii;
 use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -16,9 +19,18 @@ use yii\web\Response;
  */
 class BookController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
+    public function beforeAction($action): bool
+    {
+        if(
+            !(new UserRole())->isUser()
+            && in_array($action->id, ['create', 'update', 'delete'])
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function behaviors(): array
     {
         return array_merge(

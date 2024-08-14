@@ -1,5 +1,6 @@
 <?php
 
+use common\domain\access\UserRole;
 use common\models\Author;
 use frontend\search\author\Validate;
 use yii\helpers\Html;
@@ -19,7 +20,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Добавить автора', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        if (
+        (new UserRole())
+            ->isUser()
+        ) {
+            echo Html::a('Добавить автора', ['create'], ['class' => 'btn btn-success']);
+        }
+        ?>
     </p>
 
     <?= GridView::widget([
@@ -32,7 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::class,
                 'urlCreator' => function ($action, Author $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                 },
+                'visibleButtons' => [
+                    'update' => (new UserRole)->isUser(),
+                    'delete' => (new UserRole)->isUser(),
+                ],
             ],
         ],
     ]); ?>

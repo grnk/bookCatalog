@@ -43,5 +43,6 @@ return [
             ],
         ],
     ],
+    'defaultRoute' => 'book/index',
     'params' => $params,
 ];
